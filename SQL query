@@ -1,0 +1,80 @@
+-- Suppliers table
+CREATE TABLE suppliers (
+ supplier_id INT NOT NULL AUTO_INCREMENT,
+ supplier_name VARCHAR(50) NOT NULL,
+ contact_number VARCHAR(20) NOT NULL,
+ email VARCHAR(50) NOT NULL UNIQUE,
+ address VARCHAR(100) NOT NULL,
+ PRIMARY KEY (supplier_id)
+);
+INSERT INTO suppliers (supplier_name, contact_number, email, address) VALUES
+('ABC Pharma', '555-1234', 'abcpharma@example.com', '123 Main St'),
+('XYZ Drugs', '555-5678', 'xyzdrugs@example.com', '456 Oak Ave'),
+('PQR Pharmaceuticals', '555-9012', 'pqrpharma@example.com', '789 Maple Rd');
+-- Patients table
+CREATE TABLE patients (
+ patient_id INT NOT NULL AUTO_INCREMENT,
+ patient_name VARCHAR(50) NOT NULL,
+ contact_number VARCHAR(20) NOT NULL,
+ email VARCHAR(50) NOT NULL UNIQUE,
+ address VARCHAR(100) NOT NULL,
+ PRIMARY KEY (patient_id)
+);
+INSERT INTO patients (patient_name, contact_number, email, address) VALUES
+('John Smith', '555-1000', 'john.smith@example.com', '321 Elm St'),
+('Jane Doe', '555-2000', 'jane.doe@example.com', '654 Pine Ave'),
+('Bob Johnson', '555-3000', 'bob.johnson@example.com', '987 Birch Rd');
+-- Doctors table
+CREATE TABLE doctors (
+ doctor_id INT NOT NULL AUTO_INCREMENT,
+ doctor_name VARCHAR(50) NOT NULL,
+ contact_number VARCHAR(20) NOT NULL,
+ email VARCHAR(50) NOT NULL UNIQUE,
+ PRIMARY KEY (doctor_id)
+);
+INSERT INTO doctors (doctor_name, contact_number, email) VALUES
+('Dr. James Lee', '555-4000', 'james.lee@example.com'),
+('Dr. Sarah Johnson', '555-5000', 'sarah.johnson@example.com'),
+('Dr. Michael Chen', '555-6000', 'michael.chen@example.com');
+-- Hospitals table
+CREATE TABLE hospitals (
+ hospital_id INT NOT NULL AUTO_INCREMENT,
+ hospital_name VARCHAR(50) NOT NULL,
+ contact_number VARCHAR(20) NOT NULL,
+ email VARCHAR(50) NOT NULL UNIQUE,
+ address VARCHAR(100) NOT NULL,
+ PRIMARY KEY (hospital_id)
+);
+INSERT INTO hospitals (hospital_name, contact_number, email, address) VALUES
+('City Hospital', '555-7000', 'cityhospital@example.com', '2468 Broadway'),
+('Community Hospital', '555-8000', 'communityhospital@example.com', '1357 Main 
+St'),
+('University Hospital', '555-9000', 'universityhospital@example.com', '369 Ivy Ln');
+-- Medicine table
+CREATE TABLE medicine (
+ medicine_id INT NOT NULL AUTO_INCREMENT,
+ medicine_name VARCHAR(50) NOT NULL,
+ supplier_id INT NOT NULL,
+ price DECIMAL(8,2) NOT NULL,
+ expiry_date DATE NOT NULL,
+ PRIMARY KEY (medicine_id),
+ FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
+);
+INSERT INTO medicine (medicine_name, supplier_id, price, expiry_date) VALUES
+('Amoxicillin', 1, 10.00, '2023-06-30'),
+('Ibuprofen', 2, 8.50, '2024-01-31'),
+('Lisinopril', 1, 15.75, '2023-12-31');
+CREATE TABLE bills (
+ bill_id INT NOT NULL AUTO_INCREMENT,
+ patient_id INT NOT NULL,
+ doctor_id INT NOT NULL,
+ total_amount FLOAT NOT NULL,
+ date DATE NOT NULL,
+ PRIMARY KEY (bill_id),
+ FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+ FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+);
+INSERT INTO bills (patient_id, doctor_id, total_amount, date) VALUES
+(1, 2, 150.50, '2022-01-15'),
+(2, 1, 200.25, '2022-02-20'),
+(3, 3, 100.00, '2022-03-10')
